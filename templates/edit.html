@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- スマホ対応の最重要行 -->
+    <title>食品編集</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        /* スマホでは縦並び */
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 16px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #555;
+        }
+
+        /* PC では横並びにする */
+        @media (min-width: 600px) {
+            .form-container {
+                flex-direction: row;
+            }
+            input {
+                flex: 1;
+            }
+            button {
+                width: 100px;
+                 margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>食品を編集</h1>
+
+    <form action="/update/{{ item.id }}" method="post" class="form-container">
+
+        <!-- 食品名 -->
+        <input type="text" name="name" value="{{ item.name }}" required>
+
+        <!-- 量（数字） -->
+        <input type="number" name="qty" value="{{ item.qty }}" required inputmode="numeric" pattern="[0-9]*">
+
+        <!-- 単位（元の値を selected にする） -->
+        <select name="unit" required>
+            <option value="g"  {% if item.unit == "g" %}selected{% endif %}>g</option>
+            <option value="個" {% if item.unit == "個" %}selected{% endif %}>個</option>
+            <option value="本" {% if item.unit == "本" %}selected{% endif %}>本</option>
+            <option value="匹" {% if item.unit == "匹" %}selected{% endif %}>匹</option>
+            <option value="ml" {% if item.unit == "ml" %}selected{% endif %}>ml</option>
+            <option value="袋" {% if item.unit == "袋" %}selected{% endif %}>袋</option>
+            <option value="枚" {% if item.unit == "枚" %}selected{% endif %}>枚</option>
+        </select>
+
+        <!-- 賞味期限 -->
+        <input type="date" name="exp" value="{{ item.exp }}" required>
+
+        <button type="submit">更新</button>
+    </form>
+
+
+    <a href="/">← 戻る</a>
+
+</body>
+</html>
