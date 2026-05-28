@@ -15,6 +15,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- スマホ対応の最重要行 -->
 
+    <!-- iOS 対策（あればベター） -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="/static/icon-192.png">
+
     <title>食品管理アプリ</title>
 
     <style>
@@ -121,7 +126,7 @@
     <form action="/add" method="post" class="form-container">
         <input type="text" name="name" placeholder="食品名" required>
         <input type="number" name="qty" placeholder="量" required inputmode="numeric" pattern="[0-9]*">
-         <!-- 単位を選択 -->
+        <!-- 単位を選択 -->
         <select name="unit" required>
             <option value="g">g</option>
             <option value="個">個</option>
@@ -132,7 +137,7 @@
             <option value="枚">枚</option>
         </select>
         <input type="date" name="exp" required>
-        
+
         <button type="submit">追加</button>
     </form>
 
@@ -163,6 +168,22 @@
 
     </div>
     {% endfor %}
+
+    <!-- PWA の Service Worker 登録スクリプト -->
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("/service-worker.js")
+                    .then(reg => {
+                        console.log("Service Worker registered:", reg.scope);
+                    })
+                    .catch(err => {
+                        console.log("Service Worker registration failed:", err);
+                    });
+            });
+        }
+    </script>
+
 
 </body>
 

@@ -9,7 +9,7 @@ from datetime import datetime
 
 
 #Telegramで通知するための関数
-TOKEN = "8508528245:AAE68UTWteJePaC3qcmEBHCLCRmmRxvHdow"
+TOKEN = "8508528245:AAHWUkQw78FFNQYkyDvy6uysTeN5loy6YXg"
 CHAT_ID = ["8738323888","8932879014"]  # 通知を送りたいユーザーのIDをリストで指定
 
 def send_telegram(message):
@@ -46,7 +46,7 @@ def run_scheduler():
         schedule.run_pending()
         time.sleep(1)
 
-threading.Thread(target=run_scheduler, daemon=True).start()
+
 
 
 # -------------------------
@@ -144,7 +144,12 @@ def service_worker():
        
 
 if __name__ == "__main__":
+    # スケジューラーを別スレッドで起動
+    threading.Thread(target=run_scheduler, daemon=True).start()
+
+    # Flaskアプリを起動
     app.run(host="0.0.0.0", debug=False)
+
 
 
 
